@@ -7,8 +7,8 @@ import threading
 
 window = Tk()
 
-binance_api_key = ''    #Enter your own API-key here
-binance_api_secret = '' #Enter your own API-secret here
+binance_api_key = 'l4MTPxt1TfARPXt90dCG8UT8ghpa6Rnj0NL7mDIbsmCPU8KQGbjLN62H4ZY6ldlM'    #Enter your own API-key here
+binance_api_secret = '2ztsVWZoTxTbQCxq3W9LL9GBH2gmdqcbq3UuRtC9Oo6IFSe4KziPSrGz176ewa3I' #Enter your own API-secret here
 
 
 # A list of all banned pairs, some are added because they are not listed
@@ -138,31 +138,32 @@ def get_candles():
             elif breakout.get() == 1:
                 print(candles[-1][4])
                 print(close_list[-1])
-                if float(candles[-1][4]) > close_list[-1]:
-                    try:
-                        # Volume of the current unit, this might be misleading sometimes if the current candle just started or is halfway through
-                        volume = round(float(candles[-1][5]), 2)
-                        price = round(float(candles[-1][4]), 5)
+                if close_list[0] > close_list[-1] * percent:
+                    if float(client.get_klines(symbol=coins, interval=Client.KLINE_INTERVAL_1DAY, limit=1)[0][4]) > close_list[-1]:
+                        try:
+                            # Volume of the current unit, this might be misleading sometimes if the current candle just started or is halfway through
+                            volume = round(float(candles[-1][5]), 2)
+                            price = round(float(candles[-1][4]), 5)
 
-                        # Getting the percent difference between the last closing price and the current price and for volumes the same
-                        price_percent = str(round((float(candles[-1][4]) - float(candles[-2][4]) * 100) / price, 2))
-                        volume_percent = str(
-                            round((float(candles[-1][5]) - float(candles[-2][5]) * 100) / volume, 2))
+                            # Getting the percent difference between the last closing price and the current price and for volumes the same
+                            price_percent = str(round((float(candles[-1][4]) - float(candles[-2][4]) * 100) / price, 2))
+                            volume_percent = str(
+                                round((float(candles[-1][5]) - float(candles[-2][5]) * 100) / volume, 2))
 
-                        print(coins)
-                        print(price)
-                        print(close_list[-1])
-                        print('-----------------------------')
+                            print(coins)
+                            print(price)
+                            print(close_list[-1])
+                            print('-----------------------------')
 
-                        # Inserting the values into the treeview object, take note of the extra caution on the iid argument
-                        my_tree.insert(parent='', index='end', iid=tree_index + 1, text='Parent',
-                                       values=(coins, volume, volume_percent + '%', price, price_percent + '%'))
-                    except:
-                        continue
-                    tree_index += 10
-                    counter += 1
+                            # Inserting the values into the treeview object, take note of the extra caution on the iid argument
+                            my_tree.insert(parent='', index='end', iid=tree_index + 1, text='Parent',
+                                           values=(coins, volume, volume_percent + '%', price, price_percent + '%'))
+                        except:
+                            continue
+                        tree_index += 10
+                        counter += 1
 
-                    window.update()
+                        window.update()
     # Loading label in the lower right corner
     if counter == 1:
         lbl_load['text'] = f'Scan completed. {counter} breakout found.'
