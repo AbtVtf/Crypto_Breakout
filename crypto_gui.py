@@ -7,8 +7,8 @@ import threading
 
 window = Tk()
 
-binance_api_key = 'l4MTPxt1TfARPXt90dCG8UT8ghpa6Rnj0NL7mDIbsmCPU8KQGbjLN62H4ZY6ldlM'    #Enter your own API-key here
-binance_api_secret = '2ztsVWZoTxTbQCxq3W9LL9GBH2gmdqcbq3UuRtC9Oo6IFSe4KziPSrGz176ewa3I' #Enter your own API-secret here
+binance_api_key = ''    #Enter your own API-key here
+binance_api_secret = '' #Enter your own API-secret here
 
 
 # A list of all banned pairs, some are added because they are not listed
